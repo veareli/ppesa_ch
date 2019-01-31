@@ -120,52 +120,56 @@ public class MainActivity extends BaseVolleyActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         if(!isOnlineNet()){
             dialogoConexion();
 
+        }else{
+
+
+            volley = VolleyS.getInstance(this);
+            fRequestQueue = volley.getRequestQueue();
+
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            drawer = findViewById(R.id.drawer_layout);
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+
+
+            Intent intent = getIntent();
+            ID = intent.getIntExtra("IdCliente", 0);
+            tipoCliente = intent.getIntExtra("tipoCliente", 0);
+
+            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.nav);
+            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+            fragmentLineas = new LineasFragment();
+            fragmentPerfil = new PerfilFragment();
+            pedidosFragment = new PedidosFragment();
+            buscadorFragment = new BuscadorFragment();
+
+            Bundle args = new Bundle();
+            args.putInt("tipoCliente", tipoCliente);
+            args.putInt("IdCliente",ID);
+            fragmentLineas.setArguments(args);
+            getSupportFragmentManager().beginTransaction().add(R.id.contenedor, fragmentLineas).commit();
+
+            disponiblesModificados();
+
+            buscarNombreApp();
+            buscarPromocion();
+
         }
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        volley = VolleyS.getInstance(this);
-        fRequestQueue = volley.getRequestQueue();
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-
-        Intent intent = getIntent();
-        ID = intent.getIntExtra("IdCliente", 0);
-        tipoCliente = intent.getIntExtra("tipoCliente", 0);
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.nav);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        fragmentLineas = new LineasFragment();
-        fragmentPerfil = new PerfilFragment();
-        pedidosFragment = new PedidosFragment();
-        buscadorFragment = new BuscadorFragment();
-
-        Bundle args = new Bundle();
-        args.putInt("tipoCliente", tipoCliente);
-        args.putInt("IdCliente",ID);
-        fragmentLineas.setArguments(args);
-        getSupportFragmentManager().beginTransaction().add(R.id.contenedor, fragmentLineas).commit();
-
-        disponiblesModificados();
-
-        buscarNombreApp();
-        buscarPromocion();
         //abrirPromocion(promocion);
 
 
@@ -529,7 +533,7 @@ public class MainActivity extends BaseVolleyActivity implements
                             }*/
                         });
 
-        return builder.create();
+        return builder.show();
     }
 
 
