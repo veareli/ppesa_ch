@@ -120,6 +120,11 @@ public class MainActivity extends BaseVolleyActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        if(!isOnlineNet()){
+            dialogoConexion();
+
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -486,6 +491,46 @@ public class MainActivity extends BaseVolleyActivity implements
         }
     }
 
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public AlertDialog dialogoConexion(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("No hay conexion a internet")
+                .setMessage("Para usar la aplicacion es necesaria tener una conexiona internet.")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                                //listener.onPossitiveButtonClick();
+                            }
+                        /*})
+                .setNegativeButton("CANCELAR",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //listener.onNegativeButtonClick();
+                            }*/
+                        });
+
+        return builder.create();
+    }
 
 
 
