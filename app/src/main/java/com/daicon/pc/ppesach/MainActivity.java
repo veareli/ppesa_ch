@@ -170,9 +170,6 @@ public class MainActivity extends BaseVolleyActivity implements
 
         }
 
-        //abrirPromocion(promocion);
-
-
     }
 
     private void buscarNombreApp() {
