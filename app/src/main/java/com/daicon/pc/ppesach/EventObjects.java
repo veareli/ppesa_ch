@@ -1,5 +1,6 @@
 package com.daicon.pc.ppesach;
 
+
 import java.util.Date;
 public class EventObjects {
     private int id;
@@ -7,6 +8,7 @@ public class EventObjects {
     private String date;
     private String dateConFormato;
     private double costo;
+    private int disponibilidad;
 
     public EventObjects(){
 
@@ -15,10 +17,11 @@ public class EventObjects {
         this.setFactorValor(factorValor);
         this.setDate(date);
     }
-    public EventObjects(int id, double factorValor, String date) {
+    public EventObjects(int id, double factorValor, String date, int disponibilidad) {
         this.setDate(date);
         this.setFactorValor(factorValor);
         this.setId(id);
+        this.setDisponibilidad(disponibilidad);
     }
     public int getId() {
         return id;
@@ -56,5 +59,13 @@ public class EventObjects {
 
     public void setDateConFormato(String dateConFormato) {
         this.dateConFormato = dateConFormato;
+    }
+
+    public int getDisponibilidad() {
+        return disponibilidad;
+    }
+
+    public void setDisponibilidad(int disponibilidad) {
+        this.disponibilidad = disponibilidad;
     }
 }
